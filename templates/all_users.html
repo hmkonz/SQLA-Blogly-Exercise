@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block title %}Users{% endblock %} {% block
+page_name %}User Listing{% endblock %} {% block content %}
+
+<h1>Users</h1>
+<ul>
+  {% for user in USERS %}
+  <li>{{user}}</li>
+  {% endfor %}
+</ul>
+<button>Add User</button>
+
+{% endblock %}
