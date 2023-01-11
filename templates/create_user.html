@@ -1,0 +1,30 @@
+{% extends "bootstrap/base.html" %} {% block title %}Users{% endblock %} {%
+block page_name %}Create a User Form{% endblock %} {% block content %}
+
+<body>
+  <h1>Create a User</h1>
+
+  <form action="/users/new" method="POST">
+    <label for="firstname">First name</label><br />
+    <input
+      type="text"
+      id="firstname"
+      name="firstname"
+      placeholder="Enter a first name"
+    /><br /><br />
+    <label for="lastname">Last name</label><br />
+    <input
+      type="text"
+      name="lastname"
+      placeholder="Enter a last name"
+    /><br /><br />
+    <label for="imageURL">Image URL</label><br />
+    <input
+      type="text"
+      name="imageURL"
+      placeholder="Provide an image of this user"
+    /><br /><br />
+    <button>Add</button>
+  </form>
+</body>
+{% endblock %}
