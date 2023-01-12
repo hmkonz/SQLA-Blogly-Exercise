@@ -42,8 +42,8 @@ def create_user():
         firstName=request.form['firstname']
         lastName=request.form['lastname']
         imageURL=request.form['imageURL']
-
-        new_user=User(firstName=firstName, lastName=lastName, imageURL=imageURL)
+        # model User expects data to be in the format first_name, last_name and image_url so set those arguments equal to the variables from the form data retrieved above
+        new_user=User(first_name=firstName, last_name=lastName, image_url=imageURL)
         db.session.add(new_user)
         db.session.commit()
         return redirect('/users')
@@ -53,14 +53,18 @@ def create_user():
 
     
    
-@app.route('/user/user.id')
+@app.route('/user/{{user.id}}')
 def show_details(user_id):
-        """SHow details about single user"""
-        user=User.query.get_or_404(user_id)
-        return render_template('user_details.html', user=user)
+    """Show details about single user"""
+    user=User.query.get_or_404(user_id)
+    return render_template('user_details.html', user=user)
 
 
-
+@app.route('/user/edit')
+def edit_user(user_id):
+    """Show user form to edit"""
+    user=User.query.get(user_id)
+    return render_template('edit_user.html', user_id)
 
 
 

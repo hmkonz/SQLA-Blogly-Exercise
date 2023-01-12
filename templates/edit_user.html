@@ -1,0 +1,39 @@
+{% extends "bootstrap/base.html" %} {% block styles %} {{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='app.css')}}" />
+{% endblock %} {% block title %}User Edit Page{% endblock %} {% block page_name %}Edit a User
+{% endblock %} {% block content %}
+
+<h1>Edit a User</h1>
+
+<form action="/user/user.id" method="POST">
+    <label for="firstname">First name</label><br />
+    <input
+      type="text"
+      id="firstname"
+      name="firstname"
+      value="{{first_name}}"
+    /><br /><br />
+    <label for="lastname">Last name</label><br />
+    <input
+      type="text"
+      name="lastname"
+      value="{{last_name}}"
+    /><br /><br />
+    <label for="imageURL">Image URL</label><br />
+    <input
+      type="text"
+      name="imageURL"
+      value="{{image_url}}"
+    /><br /><br />
+
+
+    <a href="/user/edit" class="button">Cancel</a>
+    <a href="/user/user.id" class="button">Save</a>
+
+  </form>
+</body>
+
+
+<a href="/users/new" class="button">Add User</a>
+
+{% endblock %}
