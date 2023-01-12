@@ -53,20 +53,46 @@ def create_user():
 
     
    
-@app.route('/user/{{user.id}}')
+@app.route('/users/<user_id>')
 def show_details(user_id):
     """Show details about single user"""
     user=User.query.get_or_404(user_id)
     return render_template('user_details.html', user=user)
 
 
-@app.route('/user/edit')
+@app.route('/users/<user_id>/edit', methods = ['GET', 'POST'])
 def edit_user(user_id):
-    """Show user form to edit"""
-    user=User.query.get(user_id)
-    return render_template('edit_user.html', user_id)
+    # if 'edit user form' has modifications to be saved and sent along with request, do the following; else return to details page if cancel or update the user
+    if request.method == 'POST':
+        # retrieve inputs from form 
+        # firstName=request.form['firstname']
+        # lastName=request.form['lastname']
+        # imageURL=request.form['imageURL']
+        # model User expects data to be in the format first_name, last_name and image_url so set those arguments equal to the variables from the form data retrieved above
+
+        # get the data for the user having their data edited.
+        updated_user=User.query.filter_by(user_id={{user_id}})
+        # update the data by assigning it to what's in the form
+        updated_user.first_name=request.form['firstname']
+        updated_user.last_name=request.form['lastname']
+        updated_user.image_url=request.form['imageURL']
+        
+        db.session.add(updated_user)
+        db.session.commit()
+
+        return redirect('/users/<user_id>')
+    else:
+        """Show user form to edit"""
+        user=User.query.get_or_404(user_id)
+        return render_template('edit_user.html', user=user)
 
 
-
+@app.route('/users/<user_id>/delete', methods = ['POST'])
+def delete_user(user_id):
+    "Delete user and show updated list of users"
+    # User.query.get_or_404(user_id)
+    User.query.filter_by(user_id=={{user_id}}).delete()
+    db.session.commit()
+    return redirect ('/users')
 
 

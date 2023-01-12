@@ -1,8 +1,15 @@
-{% extends "bootstrap/base.html" %} {% block title %}Users{% endblock %} {%
-block page_name %}User Detail Page{% endblock %} {% block content %}
+{% extends "bootstrap/base.html" %} {% block styles %} {{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='app.css')}}" />
+{% endblock %} {% block title %}Users{% endblock %} {% block page_name %}User
+Detail Page{% endblock %} {% block content %}
+<img
+  src="{{user.image_url}}"
+  alt="Picture of {{user.first_name}}{{user.last_name}}"
+/>
+<h1>{{user.first_name}} {{user.last_name}}</h1>
+<br />
 
-<h1>{{user.first_name}}{{user.last_name}}</h1>
-
-<a href="/user/edit" class="button">Edit</a>
+<a href="/users/{{user.id}}/edit" id="Button2">Edit</a>
+<a href="/users/{{user.id}}/delete" id="Button3">Delete</a>
 
 {% endblock %}
