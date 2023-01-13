@@ -4,6 +4,7 @@ from flask import Flask, request, redirect, render_template
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User
 from flask_bootstrap import Bootstrap
+import pdb
 
 
 app = Flask(__name__)
@@ -60,27 +61,26 @@ def show_details(user_id):
     return render_template('user_details.html', user=user)
 
 
-@app.route('/users/<user_id>/edit', methods = ['GET', 'POST'])
+@app.route('/users/<int:user_id>/edit', methods = ['GET', 'POST'])
 def edit_user(user_id):
     # if 'edit user form' has modifications to be saved and sent along with request, do the following; else return to details page if cancel or update the user
-    if request.method == 'POST':
-        # retrieve inputs from form 
-        # firstName=request.form['firstname']
-        # lastName=request.form['lastname']
-        # imageURL=request.form['imageURL']
-        # model User expects data to be in the format first_name, last_name and image_url so set those arguments equal to the variables from the form data retrieved above
-
-        # get the data for the user having their data edited.
-        updated_user=User.query.filter_by(user_id={{user_id}})
-        # update the data by assigning it to what's in the form
+  
+    if request.method == 'POST': 
+        
+        # model User expects data to be in the format first_name, last_name and image_url so set these arguments equal to the form data
+    
+        # retrieve data of user editing their user info using their user_id 
+        updated_user=User.query.get_or_404(user_id)
+        
+        # retrieve edited inputs from form and update first_name, last_name and image_url in the table
         updated_user.first_name=request.form['firstname']
         updated_user.last_name=request.form['lastname']
         updated_user.image_url=request.form['imageURL']
         
         db.session.add(updated_user)
         db.session.commit()
-
-        return redirect('/users/<user_id>')
+        # in python, use an'f string' with a dynamic user_id so can be redirected to the corresponding user detail page
+        return redirect(f'/users/{user_id}')
     else:
         """Show user form to edit"""
         user=User.query.get_or_404(user_id)
@@ -90,8 +90,11 @@ def edit_user(user_id):
 @app.route('/users/<user_id>/delete', methods = ['POST'])
 def delete_user(user_id):
     "Delete user and show updated list of users"
-    # User.query.get_or_404(user_id)
-    User.query.filter_by(user_id=={{user_id}}).delete()
+
+    # retrieve data of user to be deleted using their user_id 
+    delete_user=User.query.get_or_404(user_id)
+    # delete user
+    db.session.delete(delete_user)
     db.session.commit()
     return redirect ('/users')
 

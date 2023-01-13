@@ -3,9 +3,9 @@
 {% endblock %} {% block title %}User Edit Page{% endblock %} {% block page_name %}Edit a User
 {% endblock %} {% block content %}
 
-<h1>Edit a User</h1>
+<h1>Edit a User</h1></br>
 
-<form action="" method="POST">
+<form action="/users/{{user.id}}/edit" method="POST">
     <label for="firstname">First name</label><br />
     <input
       type="text"
@@ -27,8 +27,8 @@
     /><br /><br />
 
 
-    <a href="/users/{{user.id}}" class="button">Cancel</a>
-    <a href="/users/{{user.id}}/edit" class="button">Save</a>
+    <a href="/users/{{user.id}}" id="Button4">Cancel</a>
+    <button type="submit" id="Button5">Save</button>
 
   </form>
 </body>
