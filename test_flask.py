@@ -30,25 +30,33 @@ class UserViewsTestCase(TestCase):
     def test_list_users(self):
         with app.test_client() as client:
             resp=client.get('/users')
-            html =resp.get_datat(as_text=True)
+            html =resp.get_data(as_text=True)
             self.assertEqual(resp.status_code, 200)
-            self.assertIn('Test')
+            self.assertIn('Test', html)
         
     def test_show_details(self):
         with app.test_client() as client:
             resp=client.get(f"/users/{self.user_id}")
             html=resp.get_data(as_text=True)
 
-            self.assEqual(resp.status_code, 200)
-            self.assertIn('<h1>{{user.first_name}} {{user.last_name}}', html)
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('<title>Users</title>', html)
             self.assertIn(self.user.first_name, html)
 
     def test_create_user(self):
         with app.test_client() as client:
-            d={"first_name": "Test", "last_name": "User", "image_url": 'https://media.licdn.com/dms/image/C4D03AQFHsvV_22jQ2w/profile-displayphoto-shrink_200_200/0/1516886455037?e=1678924800&v=beta&t=C6WJpxgHoFhwyYUNv49MpWfWQCOXtSuiwJllTYdzJRk'}
+            d={"firstname": "Test", "lastname": "User", "imageURL": "https://media.licdn.com/dms/image/C4D03AQFHsvV_22jQ2w/profile-displayphoto-shrink_200_200/0/1516886455037?e=1678924800&v=beta&t=C6WJpxgHoFhwyYUNv49MpWfWQCOXtSuiwJllTYdzJRk"}
 
             resp=client.post('/users/new', data=d, follow_redirects=True)
             html=resp.get_data(as_text=True)
 
             self.assertEqual(resp.status_code, 200)
-            self.assertIn("<h1>Create a User<h1>", html)
+            self.assertIn("<h1>Users</h1>", html)
+
+    def test_edit_user(self):
+        with app.test_client() as client: 
+            resp = client.get(f"/users/{self.user_id}/edit", follow_redirects=True)
+            html=resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('<button type="submit" id="Button5">Save</button>', html) 
