@@ -10,10 +10,23 @@ Detail Page{% endblock %} {% block content %}
 <br />
 
 <a href="/users/{{user.id}}/edit" id="Button2">Edit</a>
+
 <form action="/users/{{user.id}}/delete" method="post">
   <button type="submit" name="delete" value="Delete" id="Button3">
     Delete
   </button>
 </form>
+<br />
+<h2>Posts</h2>
+
+<ul>
+  {% for post in user.posts %}
+  <li>
+    <a href="/posts/{{post.user_id}}">{{post.title}}</a>
+  </li>
+  {% endfor %}
+</ul>
+
+<a href="/users/{{user.id}}/posts/new" id="Button1">Add Post</a>
 
 {% endblock %}

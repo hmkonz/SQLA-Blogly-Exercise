@@ -2,7 +2,7 @@
 
 from flask import Flask, request, redirect, render_template
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User
+from models import db, connect_db, User, Post
 from flask_bootstrap import Bootstrap
 import pdb
 
@@ -19,25 +19,29 @@ debug = DebugToolbarExtension(app)
 
 
 connect_db(app)
+db.create_all()
 
 app.app_context().push()
 
 
 @app.route('/')
 def show_users():
-    users=User.query.all()
+    """Homepage redirects to list of users."""
     return redirect('/users')
 
 @app.route('/users')
 def list_users():
-    """Shows list of all the users in the db"""
+    """Shows a page with info  on all the users in the db"""
     users=User.query.all()
     return render_template('all_users.html', users=users)
 
 
 @app.route('/users/new', methods = ['GET', 'POST'])
 def create_user():
-     # if form has inputs to send along with request do the following; else go back to create_user.html template
+
+    """Handle form submission for creating a new user"""
+
+    # if form has inputs to send along with request do the following; else go back to create_user.html template
     if request.method == 'POST':
        # retrieve inputs from form 
         firstName=request.form['firstname']
@@ -49,20 +53,23 @@ def create_user():
         db.session.commit()
         return redirect('/users')
     else:
-        """# if no inputs in the form, show the form for creating new users again"""
+        """# As a GET request, show the form for  creating new users"""
         return render_template('create_user.html')
 
     
    
 @app.route('/users/<user_id>')
 def show_details(user_id):
-    """Show details about single user"""
+    """Show a page with details about a specific user"""
     user=User.query.get_or_404(user_id)
-    return render_template('user_details.html', user=user)
+    posts=Post.query.filter_by(user_id=user.id)
+    return render_template('user_details.html', user=user, posts=posts)
 
 
 @app.route('/users/<int:user_id>/edit', methods = ['GET', 'POST'])
 def edit_user(user_id):
+    """Handle form submission for updating and existing user"""
+
     # if 'edit user form' has modifications to be saved and sent along with request, do the following; else return to details page if cancel or update the user
   
     if request.method == 'POST': 
@@ -82,14 +89,14 @@ def edit_user(user_id):
         # in python, use an'f string' with a dynamic user_id so can be redirected to the corresponding user detail page
         return redirect(f'/users/{user_id}')
     else:
-        """Show user form to edit"""
+        """As a GET request, show form to edit an existing user"""
         user=User.query.get_or_404(user_id)
         return render_template('edit_user.html', user=user)
 
 
 @app.route('/users/<user_id>/delete', methods = ['POST'])
 def delete_user(user_id):
-    "Delete user and show updated list of users"
+    """Handle form submission for deleting an existing user and showing updted list of users"""
 
     # retrieve data of user to be deleted using their user_id 
     delete_user=User.query.get_or_404(user_id)
@@ -98,4 +105,21 @@ def delete_user(user_id):
     db.session.commit()
     return redirect ('/users')
 
+@app.route('/users/<int:user_id>/posts/new', methods=["GET", "POST"])
+def create_post(user_id):
+    """Handle form submission for creating a new post"""
 
+    # if form has inputs to send along with request do the following; else go back to create_post.html template
+    if request.method == 'POST':
+       # retrieve inputs from form 
+        title=request.form['title']
+        content=request.form['content']
+
+        new_post=Post(title=title, content=content)
+        db.session.add(new_post)
+        db.session.commit()
+        return redirect(f'/users/{user_id}')
+    else:
+        """# As a GET request, show the form for creating a new post"""
+        user=User.query.get_or_404(user_id)
+        return render_template('create_post.html', user=user)
