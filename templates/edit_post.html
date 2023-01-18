@@ -1,6 +1,6 @@
 {% extends "bootstrap/base.html" %} {% block styles %} {{super()}}
 <link rel="stylesheet" href="{{url_for('.static', filename='app.css')}}" />
-{% endblock %} {% block title %}Post Edit Page{% endblock %} {% block page_name %}Edit a User
+{% endblock %} {% block title %}Post Edit Page{% endblock %} {% block page_name %}Edit a Post
 {% endblock %} {% block content %}
 
 <h1>Edit Post</h1></br>
@@ -13,12 +13,12 @@
       name="title"
       value="{{post.title}}"
     /><br /><br />
-    <label for="content">Content</label><br />
-    <textarea class="content" name="content" value="{{post.content}}" rows="4" cols="50"></textarea>
+    <label for="content">Post Content</label><br />
+    <textarea class="content" name="content" rows="4" cols="50">{{post.content}}</textarea>
     <br /><br />
    
 
-    <a href="/users" id="Button11">Cancel</a>
+    <a href="/users/{{post.user_id}}" id="Button11">Cancel</a>
     <button type="submit" id="Button12">Edit</button>
 
   </form>

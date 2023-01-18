@@ -15,19 +15,23 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = "SECRET!"
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-debug = DebugToolbarExtension(app)
 
+debug = DebugToolbarExtension(app)
 
 connect_db(app)
 
 
 app.app_context().push()
-
+db.create_all()
 
 @app.route('/')
-def show_users():
-    """Homepage redirects to list of users."""
-    return redirect('/users')
+def root():
+    """Show recent list of posts, most-recent first."""
+
+    posts = Post.query.order_by(Post.created_at.desc()).limit(5).all()
+    return render_template("posts/homepage.html", posts=posts)
+
+# User routes
 
 @app.route('/users')
 def list_users():
@@ -58,7 +62,7 @@ def create_user():
 
     
    
-@app.route('/users/<user_id>')
+@app.route('/users/<int:user_id>')
 def show_details(user_id):
     """Show a page with details about a specific user"""
     user=User.query.get_or_404(user_id)
@@ -96,7 +100,7 @@ def edit_user(user_id):
 
 @app.route('/users/<user_id>/delete', methods = ['POST'])
 def delete_user(user_id):
-    """Handle form submission for deleting an existing user and showing updted list of users"""
+    """Handle form submission for deleting an existing user and showing updated list of users"""
 
     # retrieve data of user to be deleted using their user_id 
     delete_user=User.query.get_or_404(user_id)
@@ -105,9 +109,11 @@ def delete_user(user_id):
     db.session.commit()
     return redirect ('/users')
 
+# Post routes
+
 @app.route('/users/<int:user_id>/posts/new', methods=["GET", "POST"])
 def create_post(user_id):
-    """Handle form submission for creating a new post"""
+    """Handle form submission for creating a new post for a specific user"""
 
     # retrieve data of user that's adding a post using their user_id 
     user=User.query.get_or_404(user_id)
@@ -118,6 +124,7 @@ def create_post(user_id):
         content=request.form['content']
 
         new_post=Post(title=title, content=content, user=user)
+
         db.session.add(new_post)
         db.session.commit()
         return redirect(f'/users/{user_id}')
@@ -143,7 +150,7 @@ def edit_post(post_id):
         
     
         # retrieve data of user editing their user info using their user_id 
-        updated_post=User.query.get_or_404(post_id)
+        updated_post=Post.query.get_or_404(post_id)
         
         # retrieve edited inputs from form and update first_name, last_name and image_url in the table
         updated_post.title=request.form['title']
@@ -154,17 +161,17 @@ def edit_post(post_id):
         # in python, use an'f string' with a dynamic post_id so can be redirected to the corresponding post detail page
         return redirect(f'/posts/{post_id}')
     else:
-        """As a GET request, show form to edit an existing post"""
-        post=User.query.get_or_404(post_id)
+        """As a GET request, show a form to edit an existing post"""
+        post=Post.query.get_or_404(post_id)
         return render_template('edit_post.html', post=post)
 
-@app.route('/posts/int:<post_id>/delete', methods = ['POST'])
-def delete_post(user_id, post_id):
-    """Handle form submission for deleting an existing user and showing updated list of users"""
-
+@app.route('/posts/<int:post_id>/delete', methods = ['POST'])
+def delete_post(post_id):
+    """Handle form submission for deleting an existing post and showing user detail page"""
+    
     # retrieve data of post to be deleted using the post_id 
-    delete_post=User.query.get_or_404(post_id)
+    delete_post=Post.query.get_or_404(post_id)
     # delete post
     db.session.delete(delete_post)
     db.session.commit()
-    return redirect ('/users/{user_id}')
+    return redirect (f'/users/{delete_post.user_id}')

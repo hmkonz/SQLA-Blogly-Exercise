@@ -7,10 +7,10 @@ import datetime
 db = SQLAlchemy()
 
 def connect_db(app):
-    """Connect this database to provided Flask App"""
+        """Connect this database to provided Flask App"""
 
-    db.app=app
-    db.init_app(app)
+        db.app=app
+        db.init_app(app)
 
 class User(db.Model):
     
@@ -35,14 +35,20 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.Text, nullable =False)
     content = db.Column(db.Text, nullable =False)
-    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    
+
     user=db.relationship('User', backref='posts')
 
-    
+    @property
+    def friendly_date(self):
+        """Return nicely-formatted date."""
+
+        return self.created_at.strftime("%a %b %-d  %Y, %-I:%M %p")
+
 
     def __repr__(self):
             """Show info about user"""
             p=self
-            return f"<Post{p.id}{p.title}{p.content}{p.created_at}{p.user_id}>"
+            return f"<Post{p.id}{p.title}{p.content}{p.created_at}{p.user_id}>" 
+            

@@ -23,6 +23,8 @@ Detail Page{% endblock %} {% block content %}
   {% for post in user.posts %}
   <li>
     <a href="/posts/{{post.id}}">{{post.title}}</a>
+
+    <small id="friendly">{{post.friendly_date}}</small>
   </li>
   {% endfor %}
 </ul>
