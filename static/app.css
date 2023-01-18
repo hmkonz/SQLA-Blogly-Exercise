@@ -105,12 +105,91 @@ li {
     margin-left: -115px;
 }
 
+#Button8 {
+    font: bold 11px Arial;
+    text-decoration: none;
+    background-color: blue;
+    color: white;
+    padding: 8px 10px 8px 10px;
+    border-top: 1px solid blue;
+    border-right: 1px solid blue;
+    border-bottom: 1px solid blue;
+    border-left: 1px solid blue;
+    border-radius: 5px;
+    margin-left: 90px;
+}
+
+#Button9 {
+    font: bold 11px Arial;
+    text-decoration: none;
+    background-color: red;
+    color: white;
+    padding: 8px 10px 8px 10px;
+    border-top: 1px solid red;
+    border-right: 1px solid red;
+    border-bottom: 1px solid red;
+    border-left: 1px solid red;
+    border-radius: 5px;
+}
+
+#Button10 {
+    font: bold 11px Arial;
+    text-decoration: none;
+    background-color: white;
+    color: blue;
+    padding: 8px 10px 8px 10px;
+    border-top: 1px solid blue;
+    border-right: 1px solid blue;
+    border-bottom: 1px solid blue;
+    border-left: 1px solid blue;
+    border-radius: 5px; 
+    margin-left: -170px;
+
+    margin-top: 25px;
+}
+
+#Button11 {
+    font: bold 11px Arial;
+    text-decoration: none;
+    background-color:blue;
+    color: white;
+    padding: 8px 10px 8px 10px;
+    border-top: 1px solid blue;
+    border-right: 1px solid blue;
+    border-bottom: 1px solid blue;
+    border-left: 1px solid blue;
+    border-radius: 5px;
+    margin-left: 295px;
+}
+
+#Button12 {
+    font: bold 11px Arial;
+    text-decoration: none;
+    background-color: green;
+    color: white;
+    padding: 8px 10px 8px 10px;
+    border-top: 1px solid green;
+    border-right: 1px solid green;
+    border-bottom: 1px solid green;
+    border-left: 1px solid green;
+    border-radius: 5px;
+}
+
 .content {
     
     margin-left: 25px;
 }
 
 .title {
+    margin-left: 25px;
+}
+
+p {
+    font: 16px Arial;
+    margin-left: 25px;
+}
+
+label {
     margin-left: 25px;
 }
 

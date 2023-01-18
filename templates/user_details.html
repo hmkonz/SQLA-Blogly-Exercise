@@ -22,7 +22,7 @@ Detail Page{% endblock %} {% block content %}
 <ul>
   {% for post in user.posts %}
   <li>
-    <a href="/posts/{{post.user_id}}">{{post.title}}</a>
+    <a href="/posts/{{post.id}}">{{post.title}}</a>
   </li>
   {% endfor %}
 </ul>

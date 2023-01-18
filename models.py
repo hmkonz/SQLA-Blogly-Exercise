@@ -21,6 +21,8 @@ class User(db.Model):
     last_name = db.Column(db.Text, nullable =False)
     image_url = db.Column(db.Text, nullable=False)
 
+   
+
     def __repr__(self):
             """Show info about user"""
             p=self
@@ -35,8 +37,10 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable =False)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    
+    user=db.relationship('User', backref='posts')
 
-    post=db.relationship('User', backref='posts')
+    
 
     def __repr__(self):
             """Show info about user"""
