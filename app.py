@@ -136,9 +136,9 @@ def create_post(user_id):
 @app.route('/posts/<post_id>')
 def show_post_details(post_id):
     """Show a page with details about a specific post"""
-    user=User.query.get_or_404(post_id)
+    
     post=Post.query.get_or_404(post_id)
-    return render_template('post_details.html', user=user, post=post)
+    return render_template('post_details.html', post=post)
 
 @app.route('/posts/<post_id>/edit', methods=["GET", "POST"])
 def edit_post(post_id):
@@ -168,7 +168,7 @@ def edit_post(post_id):
 @app.route('/posts/<int:post_id>/delete', methods = ['POST'])
 def delete_post(post_id):
     """Handle form submission for deleting an existing post and showing user detail page"""
-    
+
     # retrieve data of post to be deleted using the post_id 
     delete_post=Post.query.get_or_404(post_id)
     # delete post

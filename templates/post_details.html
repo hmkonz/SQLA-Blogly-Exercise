@@ -7,7 +7,9 @@ page_name %}post_content Detail Page{% endblock %} {% block content %}
 <br />
 <p>{{post.content}}</p>
 <br />
-<p>By {{user.first_name}} {{user.last_name}} on {{post.friendly_date}}</p>
+<p>
+  By {{post.user.first_name}} {{post.user.last_name}} on {{post.friendly_date}}
+</p>
 <br />
 
 <a href="/posts/{{post.id}}/edit" id="Button8">Edit</a>

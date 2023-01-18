@@ -21,6 +21,7 @@ class User(db.Model):
     last_name = db.Column(db.Text, nullable =False)
     image_url = db.Column(db.Text, nullable=False)
 
+    posts = db.relationship("Post", backref="user", cascade="all, delete-orphan")
    
 
     def __repr__(self):
@@ -38,7 +39,7 @@ class Post(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    user=db.relationship('User', backref='posts')
+   
 
     @property
     def friendly_date(self):
