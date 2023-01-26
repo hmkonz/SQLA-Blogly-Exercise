@@ -42,7 +42,9 @@ postTag5 = PostTag(post_id = 2, tag_id = 1)
 
 db.session.add_all([alanAlda, joelBurton, janeSmith])
 db.session.add_all([firstPost, anotherPost, flaskIsAwesome])
+db.session.commit()
 db.session.add_all([firstTag, secondTag, thirdTag, fourthTag])
+db.session.commit()
 db.session.add_all([postTag1, postTag2, postTag3, postTag4, postTag5])
 
 

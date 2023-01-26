@@ -18,6 +18,14 @@ a Post Form{% endblock %} {% block content %}
     <label for="content" class="content">Content</label><br />
     <textarea class="content" name="content" rows="4" cols="50"></textarea>
     <br /><br />
+
+
+  {% for tag in tags %}
+    <input type="checkbox" value="{{tag.id}}" id="tag" name="tag_checkbox" id="tag">
+    <label for="tag">{{tag.name}}</label><br>
+  {% endfor %}
+  
+  <br>
     <button id="Button6">Add</button>
     <a href="/users/{{ user.id }}" id="Button7">Cancel</a>
   </form>

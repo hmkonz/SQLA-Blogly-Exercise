@@ -1,0 +1,24 @@
+{% extends "bootstrap/base.html" %} {% block styles %} {{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='app.css')}}" />
+{% endblock %} {% block title %}Tag Edit Page{% endblock %} {% block page_name %}Edit a Tag
+{% endblock %} {% block content %}
+
+<h1>Edit a Tag</h1></br>
+
+<form action="/tags/{{tag.id}}/edit" method="POST">
+    <label for="name">Name</label>
+    <input 
+      type="text"
+      class="name"
+      name="name"
+      value="{{tag.name}}" style="width: 300px;"
+    /><br /><br />
+   
+    <a href="/tags" id="Button18">Cancel</a>
+    <button type="submit" id="Button17">Edit</button>
+
+  </form>
+</body>
+
+
+{% endblock %}

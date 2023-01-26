@@ -11,7 +11,18 @@ page_name %}post_content Detail Page{% endblock %} {% block content %}
   By {{post.user.first_name}} {{post.user.last_name}} on {{post.friendly_date}}
 </p>
 <br />
+<h5>
+  <b>Tags:</b>
+</h5>
+<div>
+  {% for tag in post_tags %}
+  <span>{{tag.name}}</span>
+  {% endfor %}
+</div>
 
+<br />
+<br />
+<br />
 <a href="/posts/{{post.id}}/edit" id="Button8">Edit</a>
 
 <form action="/posts/{{post.id}}/delete" method="post">
@@ -22,6 +33,7 @@ page_name %}post_content Detail Page{% endblock %} {% block content %}
 
 <a href="/users/{{post.user_id}}" id="Button10">Cancel</a>
 
+{% endblock %}
 <!--                   OR
 <form>
   <button class="btn btn-outline-primary"
@@ -34,5 +46,3 @@ page_name %}post_content Detail Page{% endblock %} {% block content %}
           formmethod="POST"
           formaction="/posts/{{ post.id }}/delete">Delete</button>
 </form> -->
-
-{% endblock %} -->
